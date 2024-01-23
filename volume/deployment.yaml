@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-volume-test
+spec:
+  selector:
+    matchLabels:
+      app: nginx-volume-test
+  template:
+    metadata:
+      labels:
+        app: nginx-volume-test
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        resources:
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-pv-test
+          mountPath: /var/log/nginx
+      volumes:
+      - name: nginx-pv-test
+        persistentVolumeClaim:
+          claimName: nginx-pvc-test

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-volume-test-dupl
+spec:
+  selector:
+    matchLabels:
+      app: nginx-volume-test-dupl
+  template:
+    metadata:
+      labels:
+        app: nginx-volume-test-dupl
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        resources:
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-pv-test-dupl
+          mountPath: /var/log/nginx
+      volumes:
+      - name: nginx-pv-test-dupl
+        persistentVolumeClaim:
+          claimName: btr-log-parser-logs
